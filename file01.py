@@ -46,9 +46,69 @@ file.close()
 print(f"本次计算元素包含：{num_list}")
 print("sum = " + str(sum))
 
-# 要求用户输入若干个学生的信息（每个学生包括姓名、年龄、成绩），将这些信息逐行保存到`students.txt`中，
-# 每个学生一行，用逗号分隔。
+# 要求用户输入若干个学生的信息（每个学生包括姓名、年龄、成绩），
+# 将这些信息逐行保存到`students.txt`中，每个学生一行，用逗号分隔。
 # 然后读取文件内容，并把学生信息按如下格式输出：  `姓名：XXX，年龄：XX，成绩：XX`
+def save_to_stuinfo(stu_data, filename="stu_info.txt"):
+	f = open(filename, "a", encoding="utf-8")
+	print(stu_data)
+	for user, stu in stu_data.items():
+		tmp_stu =",".join(stu) + "\n"
+		f.write(tmp_stu)
+	f.close()
+	print("学员信息已经保存到配置文件中。")
+
+def load_from_stuinfo(filename="stu_info.txt"):
+	stu_dict = {}
+	f = open(filename, "r", encoding="utf-8")
+	for line in f:
+		stu_list = []
+		use_name, use_age, use_grades = line.strip().split(",")
+		print(f"学员信息： 姓名：{use_name} 年龄：{use_age} 成绩：{use_grades} ")
+		stu_list.append(use_name)
+		stu_list.append(use_age)
+		stu_list.append(use_grades)
+
+		stu_dict[use_name] = stu_list
+	f.close()
+	return stu_dict
+
+def add_stu():
+	stu_name = input("输入学生姓名：").strip()
+	# if stu_name == 
+	stu_age = input("输入学生年龄：")
+	stu_grades = input("输入学生成绩：")
+	return stu_name, stu_age, stu_grades
+
+stu_info = {}
+while True:
+	print('''----学生信息管理系统----
+1. 添加学生信息
+2. 保存学生信息
+3. 加载学生信息
+4. 退出系统
+''')
+	choices = input("输入操作项：").strip()
+
+	if choices == "1":
+		for i in range(5):
+			stu_tmp = []
+			print(f"第{i+1}个学生".center(50,"-"))
+			name, age, grades = add_stu()
+			stu_tmp.append(name)
+			stu_tmp.append(age)
+			stu_tmp.append(grades)
+			stu_info[name] = stu_tmp
+		print("已添加5个学员信息，请及时保存。")
+	elif choices == "2":
+		save_to_stuinfo(stu_info)
+	elif choices == "3":
+		stu_info = load_from_stuinfo()
+	elif choices == "4" or choices == "":
+		exit("正在退出系统，再见。")
+	else:
+		print("无效输入，请重新输入操作项。")
+
 
 
 
